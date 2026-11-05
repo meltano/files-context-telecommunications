@@ -1,0 +1,60 @@
+version: datasets/v0.3
+title: "Telecommunications: key metrics"
+questions: Which metrics does a telecommunications organisation run on, and how is each calculated?
+description: |
+  Standard definitions of the metrics telecommunications organisations report. Confirm each one with
+  the finance, commercial or network team before building it: operators differ on what counts as an
+  active subscriber, whether device and wholesale revenue are included, and how outages are measured.
+
+  ## Base and growth
+
+  | Metric | Definition |
+  |---|---|
+  | Subscriber base | Active subscriptions at the period end, by type (contract, pay as you go (prepaid), SIM-only, broadband, IoT). Define "active", especially for prepaid |
+  | Gross additions | New subscriptions activated in the period |
+  | Net additions | Gross additions − disconnections in the period |
+  | Churn rate | Disconnections in the period ÷ average subscriber base, usually stated monthly. Report voluntary and involuntary (non-payment) churn separately |
+  | Port-out share | Disconnections that ported their number to another operator ÷ all disconnections |
+  | Take-up (penetration) rate | Premises connected ÷ premises passed (fixed networks) |
+
+  ## Revenue
+
+  | Metric | Definition |
+  |---|---|
+  | Average revenue per user (ARPU) | Service revenue ÷ average subscriber base, per month. Usually excludes handset and equipment revenue. Some report it per account (ARPA) |
+  | Service revenue | Recurring, usage and one-off service revenue, excluding equipment sales |
+  | Average margin per user (AMPU) | (Service revenue − direct costs such as interconnect and content) ÷ average subscriber base |
+  | Customer lifetime value | ARPU (or margin per user) ÷ monthly churn rate, sometimes discounted |
+  | Subscriber acquisition cost (SAC) | Acquisition spend (commissions, handset subsidies, marketing) ÷ gross additions |
+  | Revenue leakage | Usage or services delivered but not billed ÷ total billable value, from revenue assurance checks |
+
+  ## Usage
+
+  | Metric | Definition |
+  |---|---|
+  | Data usage per user | Total data volume (GB) ÷ active data users, per month |
+  | Minutes of use (MOU) | Voice minutes ÷ active subscribers, per month |
+  | Allowance utilisation | Usage ÷ plan allowance, per subscription. Drives up-sell and out-of-bundle revenue |
+
+  ## Network
+
+  | Metric | Definition |
+  |---|---|
+  | Network availability | Time network elements were in service ÷ total time, weighted by element or traffic. Usually per cent with several nines |
+  | Dropped call rate | Calls dropped after setup ÷ calls set up |
+  | Call setup success rate | Calls successfully set up ÷ call attempts |
+  | Average throughput | Mean download (and upload) speed delivered to users, by cell, area or technology |
+  | Utilisation (congestion) | Busy-hour traffic ÷ capacity, per cell or link |
+  | Coverage | Share of population, premises or geography with service of a stated technology and quality |
+
+  ## Service and operations
+
+  | Metric | Definition |
+  |---|---|
+  | Fault rate | Faults reported in the period ÷ active lines, per month or year |
+  | Mean time to repair (MTTR) | Mean time from fault report to service restored |
+  | Right first time | Orders or repairs completed without a repeat visit or contact ÷ all completed |
+  | SLA attainment | Tickets or circuits meeting the SLA ÷ all in scope |
+  | Complaints per 1,000 customers | Complaints in the period ÷ subscriber base × 1,000 (Ofcom publishes UK operators' figures this way) |
+
+  #telecommunications #organisation-context

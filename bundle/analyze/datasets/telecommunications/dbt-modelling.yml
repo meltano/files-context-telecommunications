@@ -1,0 +1,65 @@
+version: datasets/v0.3
+title: "Telecommunications: modelling it in dbt"
+questions: How should raw telecommunications data be modelled in dbt so that it reconciles?
+description: |
+  Conventions for building dbt models on raw telecommunications data. They apply on top of the
+  workspace's usual dbt layout: staging, then intermediate, then marts.
+
+  ## Usage records
+
+  - **Always incremental.** Partition (or cluster) usage tables by event date and build them
+    incrementally. A full refresh of years of CDRs is rarely affordable.
+  - **Reprocess a late-arrival window.** Mediation delivers files late, roaming records (TAP files)
+    arrive days or weeks later, and rerating corrects charges. Reload a look-back window and merge on
+    a stable record ID.
+  - **Deduplicate.** Mediation can deliver the same record twice, and long calls and data sessions
+    are split into partial records. Deduplicate on the record ID, and aggregate partials on the
+    session or call reference before counting events.
+  - **Aggregate early.** Build `fct_usage_daily` at subscription-day-usage type and point most marts
+    at it. Keep raw records for revenue assurance and investigations only.
+  - **Units.** Normalise data volumes to bytes (and report in GB with 1 GB = 10^9 or 2^30 bytes,
+    stated), and durations to seconds. Keep rated and billed charges separately.
+
+  ## Subscriptions and the base
+
+  - Build subscription status, tariff and contract history as effective-dated intervals (from the
+    source's history or **dbt snapshots**), then a `fct_subscriptions_daily` (or month-end) spine.
+    Base, net additions, churn and ARPU all come from it.
+  - Key subscriptions on the BSS service ID, not the phone number: numbers are reused and ported,
+    and SIMs and devices are swapped.
+  - Classify disconnections (voluntary, non-payment, port-out, migration to another product) in one
+    intermediate model. A migration from copper to fibre, or prepaid to contract, is not churn of the
+    customer.
+
+  ## Bills and revenue
+
+  - Keep bill-cycle dates on bill lines. Revenue for a calendar month spans two bill cycles; finance
+    accrues unbilled usage.
+  - Store amounts as `numeric` in the currency of the bill, never floating point.
+  - Reconcile rated usage to billed usage per bill cycle: the difference is revenue leakage or a
+    timing gap.
+
+  ## Network data
+
+  - Store network KPIs at the interval the source gives (often 15 minutes) and roll up to hour and day
+    using the right aggregation: sum counters such as attempts and drops, then divide; never average
+    ratios.
+  - Keep the network element hierarchy (cell → site → region) effective-dated: cells are added,
+    re-parented and retired.
+  - Store timestamps in UTC; network equipment sometimes reports local time, so convert in staging.
+
+  ## Tests
+
+  - Opening base + gross additions − disconnections = closing base, per period and product.
+  - Daily usage totals agree with mediation's control totals.
+  - Every rated usage record matches an active subscription on its event date.
+  - `unique` and `not_null` on subscription, account and record keys; **accepted values** on usage
+    type and status; **freshness** on usage sources.
+
+  ## Sensitive columns
+
+  Tag traffic, location and identity columns (MSISDN, IMSI, IMEI, cell ID with time) in the model YAML,
+  for example `meta: {pii: true}`, and keep them out of marts that do not need them. See
+  *Telecommunications: handling the data*.
+
+  #telecommunications #organisation-context

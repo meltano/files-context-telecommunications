@@ -1,0 +1,40 @@
+version: datasets/v0.3
+title: "Telecommunications: data model"
+questions: What are the core entities of telecommunications data, and at what grain should each be modelled?
+description: |
+  The entities most telecommunications data reduces to, with the grain and key of each. Use it to map
+  raw source tables onto a consistent model. Names are suggestions; keep the organisation's own terms
+  where they already exist. TM Forum's Information Framework (SID) is the industry reference model.
+
+  | Entity | Grain (one row per…) | Notes |
+  |---|---|---|
+  | `customer` (party) | person or business | Consumer or business segment. A business customer has many sites and contacts |
+  | `billing_account` | account billed | Bill cycle, payment method, credit class. A customer can have several |
+  | `subscription` (service instance) | subscribed service | Mobile line, broadband line, circuit or SIP trunk. Has a status, activation and termination dates, and a contract end date |
+  | `product_offering` / `tariff` | tariff version | Plan, price, allowances (minutes, texts, data), contract length. Version it: tariffs and annual price rises change |
+  | `subscription_product` | product on a subscription per period | Base plan and add-ons (bolt-ons), with effective dates |
+  | `resource` | number, SIM or device | MSISDN, ICCID (SIM), IMSI, IMEI (device). Several resources link to one subscription over time; SIM swaps and ports change them |
+  | `usage_record` (CDR / xDR) | rated usage event | Subscription, event type (voice, SMS, data, roaming), start time, duration or volume, rated charge, cell or location fields. Huge volume |
+  | `usage_daily` | subscription per day per usage type | Aggregated usage and charge: the grain most reporting needs |
+  | `bill` / `bill_line` | bill line | Recurring charges, usage, one-off charges, discounts, tax per bill cycle |
+  | `order` | order line | Provide, change, cease, migrate or port. Requested, committed and completed dates |
+  | `trouble_ticket` (fault) | fault or case | Subscription, category, reported, restored and closed timestamps, SLA |
+  | `network_element` | element (cell, site, node, port) | Technology (4G, 5G, FTTP), location, parent site, in-service dates |
+  | `network_kpi` | element per interval | Availability, traffic, dropped-call rate, throughput, per 15 minutes, hour or day |
+  | `premises` | address (for fixed networks) | Unique property reference number (UPRN) in the UK; build status: passed, ready for service, connected |
+
+  ## Relationships
+
+  - A **customer** has one or more **billing accounts**, each with one or more **subscriptions**.
+  - A **subscription** uses **resources** (number, SIM, device) and generates **usage records**.
+  - A **subscription** is served by **network elements**: a home cell or exchange, a line or port.
+  - **Orders** create, change and cease **subscriptions**; **trouble tickets** are raised against them.
+  - **Bills** charge **billing accounts** for subscription products, usage and one-off charges.
+
+  ## Status and history
+
+  Subscription status, tariff, contract end date and resources change over time. Keep effective-dated
+  history so the active base, ARPU and churn can be rebuilt for any date, and so porting and SIM swaps
+  do not break a subscription's identity.
+
+  #telecommunications #organisation-context

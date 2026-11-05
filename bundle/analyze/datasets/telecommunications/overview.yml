@@ -1,0 +1,56 @@
+version: datasets/v0.3
+title: "Telecommunications: industry overview"
+questions: What does a telecommunications organisation's data look like, and where does it come from?
+description: |
+  Industry context for this workspace, for the people and AI assistants working in it. It has no
+  query: it is a briefing to read before modelling or analysing this organisation's data.
+
+  ## Segments
+
+  Telecommunications covers organisations that carry voice, data and messages over fixed, mobile and
+  satellite networks, and those that resell or support them. The segments differ in which entities
+  and metrics matter most:
+
+  - **Mobile network operators (MNOs):** own radio spectrum and network. Subscribers, plans, usage,
+    roaming, interconnect and cell-level network performance drive the data.
+  - **Mobile virtual network operators (MVNOs):** sell mobile service on a host operator's network.
+    Subscribers, plans and usage drive the data; network data comes from the host, if at all.
+  - **Fixed broadband and fibre:** retail ISPs and alternative network builders (altnets). Premises
+    passed and connected, orders, installations, faults and line speeds drive the data.
+  - **Wholesale and carrier:** network access, transit and interconnect sold to other operators.
+    Circuits, capacity, inter-operator traffic and settlements drive the data.
+  - **Business communications:** connectivity, cloud telephony (VoIP, SIP trunks), unified
+    communications and managed services, sold on contracts with service level agreements (SLAs).
+  - **IoT and machine-to-machine (M2M):** large numbers of SIMs with low usage each.
+
+  ## Typical source systems
+
+  | System | Examples | What it holds |
+  |---|---|---|
+  | Business support systems (BSS): billing and charging | Amdocs, Netcracker, Ericsson Charging, CSG, Optiva | Accounts, subscriptions, rated usage, bills, payments |
+  | CRM and order management | Salesforce Communications Cloud, Amdocs CRM, Microsoft Dynamics 365 | Customers, orders, contacts, cases |
+  | Mediation | Ericsson, Nokia, Amdocs mediation, DigitalRoute | Collected and normalised call detail records (CDRs) and usage records |
+  | Operations support systems (OSS): inventory and provisioning | Netcracker, Nokia, Ericsson, an in-house inventory | Network elements, sites, circuits, ports, service-to-resource mapping |
+  | Network and service assurance | Network management systems, fault and performance tools | Alarms, outages, key performance indicators (KPIs) by cell, node and link |
+  | Field service and workforce | ServiceNow, Salesforce Field Service, IFS | Installations, repairs, engineer visits, appointments |
+  | Number management | Number portability systems, number inventory | Phone numbers, porting requests |
+  | Interconnect and roaming | Roaming clearing houses, interconnect billing | Inter-operator usage and settlements |
+  | Contact centre | Genesys, NICE, Amazon Connect | Calls, queues, handling times, reasons |
+  | Finance / ERP | SAP, Oracle, Microsoft Dynamics 365 | General ledger, revenue, network capital spend |
+
+  ## What makes the data different
+
+  - **Volume.** Usage records run to millions or billions of rows a day. Model and query them
+    incrementally and aggregate early.
+  - **Customer, account, subscription and line are different things.** One customer holds several
+    accounts, each with several subscriptions on different lines (numbers, SIMs or circuits).
+  - **Network and commercial data must be joined.** Linking a customer's service to the cells,
+    exchanges or circuits it uses is what lets network quality explain churn and complaints.
+  - **Revenue assurance.** Usage that is collected but not rated or billed is lost revenue; matching
+    records across mediation, rating and billing is routine.
+  - **The data is sensitive.** Traffic and location data reveals where people are and whom they
+    contact, and has its own rules. See *Telecommunications: handling the data*.
+
+  Related datasets: *data model*, *metrics*, *modelling it in dbt*, *handling the data*.
+
+  #telecommunications #organisation-context

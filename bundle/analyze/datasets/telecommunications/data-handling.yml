@@ -1,0 +1,49 @@
+version: datasets/v0.3
+title: "Telecommunications: handling the data"
+questions: What care does telecommunications data need in the warehouse?
+description: |
+  Telecommunications data shows who people are, whom they contact, when, and where they were. Traffic
+  and location data has rules of its own on top of general data protection law. These are general
+  practices for a warehouse holding it. They are not legal or compliance advice: the organisation's
+  legal, regulatory and data protection teams decide what applies to it.
+
+  ## Classify the data
+
+  | Class | Examples | Handling |
+  |---|---|---|
+  | Content of communications | Call audio, message text, browsing content | **Never load it into the warehouse.** Analytics needs none of it |
+  | Traffic data | CDRs: calling and called numbers, times, durations, data sessions, IP addresses | Restrict tightly. Pseudonymise numbers in marts, aggregate where possible, and use it only for the purposes the rules allow |
+  | Location data | Cell ID and timestamp, cell sector, GPS from apps | Treat as highly sensitive. Aggregate to area and time bands for network and commercial analysis |
+  | Subscriber identifiers | MSISDN (phone number), IMSI, IMEI, ICCID | Hash or tokenise outside the models that need them |
+  | Personal and account data | Name, address, date of birth, payment details, credit checks | Restrict access, mask in non-production and in marts that do not need it |
+  | Card data | Full card number, CVV | Never load it; keep only a payment token and at most the last four digits (PCI DSS) |
+  | Vulnerability data | Customers flagged as vulnerable, accessibility needs | Restrict to the teams that support those customers |
+
+  ## Practices
+
+  - **Least privilege.** Separate raw, staging and mart schemas, and grant raw usage and location
+    data only to the pipelines and the people who maintain them.
+  - **Purpose limitation.** Traffic and location data used for billing and network management may need
+    consent, or anonymisation, before it is used for marketing or sold as insight.
+  - **Aggregate and anonymise.** Most network and commercial questions can be answered from counts by
+    area, cell and hour. Apply minimum group sizes before sharing location insight.
+  - **No production data in development** without masking.
+  - **Retention.** Billing and traffic data have specific retention limits and, in some cases,
+    retention obligations. Agree the periods with legal and model deletion explicitly.
+  - **Data subject requests.** Under GDPR and UK GDPR a customer can ask for their data or for its
+    erasure, so know where each person's data lives.
+
+  ## Regulators and rules to be aware of
+
+  Which apply depends on the organisation's country and activities. Common ones:
+
+  - **UK:** Ofcom and its General Conditions of Entitlement, UK GDPR, PECR (including its rules on
+    traffic and location data and on marketing), the Investigatory Powers Act 2016, the
+    Telecommunications (Security) Act 2021, the ICO.
+  - **EU:** GDPR, the ePrivacy Directive, the European Electronic Communications Code (EECC), NIS2,
+    national regulators.
+  - **US:** the FCC's customer proprietary network information (CPNI) rules, CALEA, state privacy
+    laws.
+  - **Card payments everywhere:** PCI DSS.
+
+  #telecommunications #organisation-context
