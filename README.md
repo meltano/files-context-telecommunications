@@ -38,7 +38,7 @@ In a Meltano project of your own, save this definition to a file outside the pro
 name: files-context-telecommunications
 namespace: files_context_telecommunications
 variant: matatika
-pip_url: git+https://github.com/meltano/files-context-telecommunications.git@v0.1.0
+pip_url: git+https://github.com/meltano/files-context-telecommunications.git@v0.1.1
 update:
   '*.yml': true
 ```
@@ -54,7 +54,7 @@ meltano add --plugin-type files files-context-telecommunications --from-ref /tmp
 
 ## Release
 
-Tag a version (`git tag -a v0.1.0 -m v0.1.0 && git push --tags`) and bump the `pip_url` ref in the
+Tag a version (`git tag -a v0.1.1 -m v0.1.1 && git push --tags`) and bump the `pip_url` ref in the
 Meltano Cloud registry definition (`plugins/files/files-context-telecommunications--matatika.yml`).
 
 These datasets are general industry context, not legal or regulatory advice.

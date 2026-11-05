@@ -46,7 +46,8 @@ description: |
     ratios.
   - Keep the network element hierarchy (cell → site → region) effective-dated: cells are added,
     re-parented and retired.
-  - Store timestamps in UTC; network equipment sometimes reports local time, so convert in staging.
+  - Store timestamps in UTC (GMT+00:00, no daylight saving); network equipment sometimes reports
+    local time (UK: GMT in winter, BST = GMT+01:00 in summer), so convert in staging.
 
   ## Tests
 
